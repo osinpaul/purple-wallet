@@ -1,26 +1,20 @@
-$border-radius: 8px;
-$primary-color: #3a6ff8;
-$text-color: #fff;
+.form__button {
+  border-radius: 8px;
+  background-color: #3a6ff8;
+  color: #fff;
+  padding: 12px 70px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+}
 
-.form {
-  &__button {
-    border-radius: $border-radius;
-    background-color: $primary-color;
-    color: $text-color;
-    padding: 12px 70px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: 0.3s ease-in-out;
+.form__button:hover {
+  opacity: 0.8;
+}
 
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-  }
+.form__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
