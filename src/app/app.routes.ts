@@ -1,3 +1,4 @@
+import { DashboardComponent } from './private/pages/dashboard/dashboard.component';
 import { Routes } from '@angular/router';
 import { PublicLayoutComponent } from './public/_layout/layout.component';
 import { PrivateLayoutComponent } from './private/_layout/layout.component';
@@ -21,6 +22,16 @@ export const routes: Routes = [
   {
     path: 'private',
     component: PrivateLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'dashboard',
+      },
+    ],
   },
   {
     path: '**',
