@@ -1,5 +1,13 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-nav-button',
@@ -7,7 +15,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./nav-button.component.scss'],
   imports: [NgOptimizedImage, NgClass],
 })
-export class AppNavButtonComponent {
+export class AppNavButtonComponent implements AfterViewInit {
+  private _elementRef: ElementRef = inject(ElementRef);
+  private _observer!: MutationObserver;
   type = 'button';
   isActive = false;
 
@@ -21,5 +31,22 @@ export class AppNavButtonComponent {
     if (!this.disabled) {
       this.clicked.emit(event);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this._observer = new MutationObserver(() => {
+      const hasClass =
+        this._elementRef.nativeElement.classList.contains('active');
+      this.isActive = hasClass;
+    });
+
+    this._observer.observe(this._elementRef.nativeElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    const hasClass =
+      this._elementRef.nativeElement.classList.contains('active');
+    this.isActive = hasClass;
   }
 }

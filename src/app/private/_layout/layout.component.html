@@ -14,7 +14,14 @@
       </app-nav-button>
     }
   </div>
-  <div class="start__exit-link">Кнопка выхода</div>
+  <div class="start__exit-link">
+    <app-nav-button
+      text="Выход"
+      iconUrl="menu/logout.svg"
+      class="start__logout-button"
+      (click)="onLogoutClick()">
+    </app-nav-button>
+  </div>
 </div>
 <div class="block__end">
   <div class="end__nav">
