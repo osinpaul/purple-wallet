@@ -1,1 +1,24 @@
-Private layout
+<div class="block__start">
+  <div class="start__logo">
+    <img ngSrc="/images/logo.svg" alt="Cryptik logo" width="170" height="41" />
+  </div>
+  <div class="start__menu">
+    @for (item of navLinks; track item.id) {
+      <app-nav-button
+        class="start__dashboard-button"
+        [text]="item.text"
+        [iconUrl]="item.iconUrl"
+        [iconUrlActive]="item.iconUrlActive"
+        [routerLink]="item.link"
+        routerLinkActive="active">
+      </app-nav-button>
+    }
+  </div>
+  <div class="start__exit-link">Кнопка выхода</div>
+</div>
+<div class="block__end">
+  <div class="end__nav">
+    Хидер
+    <router-outlet></router-outlet>
+  </div>
+</div>
