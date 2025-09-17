@@ -6,11 +6,10 @@
     'nav__button--active': isActive,
   }"
   (click)="onClick($event)">
-  @if (isActive && iconUrlActive !== null) {
-    <img [ngSrc]="iconUrlActive" width="24" height="24" alt="exchange" />
-  } @else {
-    <img [ngSrc]="iconUrl" width="24" height="24" alt="exchange" />
-  }
+  <ng-container
+    *appButtonIcon="isActive; url: iconUrl; activeUrl: iconUrlActive; let src">
+    <img [ngSrc]="src" width="24" height="24" alt="exchange" />
+  </ng-container>
   <span>
     {{ text }}
   </span>

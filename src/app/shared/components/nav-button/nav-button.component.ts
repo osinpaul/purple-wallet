@@ -9,12 +9,18 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { ButtonIconDirective } from '../../directives/button-icon.directive';
 
 @Component({
   selector: 'app-nav-button',
   templateUrl: './nav-button.component.html',
   styleUrls: ['./nav-button.component.scss'],
-  imports: [NgOptimizedImage, NgClass, FontWeightDirective],
+  imports: [
+    NgClass,
+    FontWeightDirective,
+    ButtonIconDirective,
+    NgOptimizedImage,
+  ],
 })
 export class AppNavButtonComponent implements AfterViewInit {
   private _elementRef: ElementRef = inject(ElementRef);
