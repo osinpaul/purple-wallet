@@ -5,7 +5,6 @@ import {
   ViewContainerRef,
   EmbeddedViewRef,
   OnChanges,
-  SimpleChanges,
   inject,
 } from '@angular/core';
 
