@@ -8,11 +8,11 @@
         {{ data.assetName }}
       </span>
       <span class="asset__name-short">
-        {{ data.assetId | uppercase }}
+        {{ data.assetId | legacyuppercase }}
       </span>
     </div>
     <div class="asset__value">
-      {{ data.value | number: '2.2-2' }} {{ data.assetId | uppercase }}
+      {{ data.value | number: '2.2-2' }} {{ data.assetId | legacyuppercase }}
     </div>
     <div class="fiat__value">
       {{ data.valueInFiat | currency: 'RUB' : 'symbol-narrow' }}
