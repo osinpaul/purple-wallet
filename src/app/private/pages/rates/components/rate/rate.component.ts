@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IAssetModel } from '../../models/asset.model';
+import { IRateModel } from '../../models/rate.model';
 import {
-  CurrencyPipe,
   DecimalPipe,
   NgClass,
   NgOptimizedImage,
@@ -10,18 +9,17 @@ import {
 import { LegacyUpperCasePipe } from '../../../../../shared/pipes/legacy-uppercase.pipe';
 
 @Component({
-  selector: 'app-asset',
-  templateUrl: './asset.component.html',
-  styleUrls: ['./asset.component.scss'],
+  selector: 'app-rate',
+  templateUrl: './rate.component.html',
+  styleUrls: ['./rate.component.scss'],
   imports: [
     NgOptimizedImage,
+    LegacyUpperCasePipe,
     NgClass,
-    CurrencyPipe,
     PercentPipe,
     DecimalPipe,
-    LegacyUpperCasePipe,
   ],
 })
-export class AssetComponent {
-  @Input() data: IAssetModel | null = null;
+export class RateComponent {
+  @Input() data: IRateModel | null = null;
 }
