@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { IRateModel } from './models/rate.model';
 import { FAKE_RATES } from '../../../shared/const/fake-rates.const';
 import { RateComponent } from './components/rate/rate.component';
-import { delay, Observable, of } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-rates',
   templateUrl: './rates.component.html',
   styleUrls: ['./rates.component.scss'],
   standalone: true,
-  imports: [RateComponent, AsyncPipe],
+  imports: [RateComponent],
 })
 export class RatesComponent implements OnInit {
-  rates$: Observable<IRateModel[]> = of(FAKE_RATES).pipe(delay(1000));
+  rates = signal<IRateModel[]>([]);
+
+  constructor() {
+    // effect — аналог подписки на изменения
+    effect(() => {
+      console.log('Rates updated:', this.rates());
+    });
+  }
 
   ngOnInit(): void {
-    this.rates$.subscribe(console.log);
+    // имитация асинхронной загрузки
+    setTimeout(() => {
+      this.rates.set(FAKE_RATES);
+    }, 1000);
   }
 }
