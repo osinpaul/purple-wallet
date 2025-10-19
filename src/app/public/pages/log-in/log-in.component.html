@@ -4,14 +4,18 @@
     <app-input
       class="login__form--control"
       iconUrl="icons/letter.svg"
-      (controlValue)="onInputChange($event)" />
+      (controlValue)="onInputChange('username', $event)" />
 
     <app-password-input
       class="login__form--control"
       iconUrl="icons/lock.svg"
-      (controlValue)="onInputChange($event)" />
+      (controlValue)="onInputChange('password', $event)" />
 
-    <app-button routerLink="/private">
+    @if (error) {
+      <div class="login__form--errors">{{ error }}</div>
+    }
+
+    <app-button (btnClick)="onLoginClick()">
       <span> Войти </span>
     </app-button>
   </div>
