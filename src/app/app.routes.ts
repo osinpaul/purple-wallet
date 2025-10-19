@@ -16,6 +16,7 @@ export const routes: Routes = [
       {
         path: 'log-in',
         component: LogInComponent,
+        title: 'Авторизация',
       },
       {
         path: '**',
@@ -31,18 +32,22 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        title: 'Главная',
       },
       {
         path: 'assets',
         component: AssetsComponent,
+        title: 'Мои ассеты',
       },
       {
         path: 'exchange',
         component: ExchangeComponent,
+        title: 'Обмен',
       },
       {
         path: 'rates',
         component: RatesComponent,
+        title: 'Курсы',
       },
       {
         path: '**',
