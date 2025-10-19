@@ -12,7 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrls: ['./assets.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AssetComponent, AsyncPipe],
+  imports: [AssetComponent],
 })
 export class AssetsComponent {
   assets$: Observable<IAssetModel[]> = of(FAKE_ASSETS).pipe(delay(1000));

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input, Signal } from '@angular/core';
 import { IAssetModel } from '../../models/asset.model';
 import {
   CurrencyPipe,
@@ -23,5 +23,5 @@ import { LegacyUpperCasePipe } from '../../../../../shared/pipes/legacy-uppercas
   ],
 })
 export class AssetComponent {
-  @Input() data: IAssetModel | null = null;
+  data = input.required<IAssetModel>();
 }
