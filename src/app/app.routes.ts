@@ -17,6 +17,9 @@ export const routes: Routes = [
         path: 'log-in',
         component: LogInComponent,
         title: 'Авторизация',
+        data: {
+          isShowSearch: false,
+        },
       },
       {
         path: '**',
@@ -33,21 +36,33 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         title: 'Главная',
+        data: {
+          isShowSearch: false,
+        },
       },
       {
         path: 'assets',
         component: AssetsComponent,
         title: 'Мои ассеты',
+        data: {
+          isShowSearch: false,
+        },
       },
       {
         path: 'exchange',
         component: ExchangeComponent,
         title: 'Обмен',
+        data: {
+          isShowSearch: false,
+        },
       },
       {
         path: 'rates',
         component: RatesComponent,
         title: 'Курсы',
+        data: {
+          isShowSearch: true,
+        },
       },
       {
         path: '**',

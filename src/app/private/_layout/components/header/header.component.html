@@ -1,0 +1,34 @@
+<div class="header">
+  <div class="header__heading">
+    <h1 class="h1">{{ title }}</h1>
+  </div>
+
+  <div class="header__action">
+    @if (isShowSearch()) {
+      <div class="header__search">
+        <app-search-input placeholder="Поиск монет" />
+      </div>
+    }
+  </div>
+
+  <div class="header__buttons">
+    <button class="header__btn header__btn--notification">
+      <img
+        ngSrc="icons/notification.svg"
+        width="24"
+        height="24"
+        alt="notification" />
+      <span class="header__btn-dot"></span>
+    </button>
+
+    <div class="header__profile">
+      <img
+        [src]="profileData()?.avatar"
+        [alt]="profileData()?.firstName + ' ' + profileData()?.lastName"
+        class="header__avatar" />
+      <span class="header__username">{{
+        profileData()?.firstName + ' ' + profileData()?.lastName
+      }}</span>
+    </div>
+  </div>
+</div>
