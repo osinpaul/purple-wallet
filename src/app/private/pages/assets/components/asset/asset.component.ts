@@ -1,4 +1,4 @@
-import { Component, input, Input, Signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IAssetModel } from '../../models/asset.model';
 import {
   CurrencyPipe,

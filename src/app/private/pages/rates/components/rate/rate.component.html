@@ -1,35 +1,40 @@
-@if (data != null) {
+@if (data()) {
   <div class="rate__card">
     <div class="rate__icon">
-      <img [ngSrc]="data.logoUrl" width="25" height="25" [alt]="data.assetId" />
+      <img
+        [ngSrc]="data().logoUrl"
+        width="25"
+        height="25"
+        [alt]="data().assetId" />
     </div>
     <div class="rate__name">
       <span class="rate__name-full">
-        {{ data.assetName }}
+        {{ data().assetName }}
       </span>
       <span class="rate__name-short">
-        {{ data.assetId | legacyuppercase }}
+        {{ data().assetId | legacyuppercase }}
       </span>
     </div>
     <div class="rate__rate-change">
       <div class="rate__rate-change-icon">
-        @if (data.rateChange > 0) {
+        @if (data().rateChange > 0) {
           <img ngSrc="/icons/up.svg" width="15" height="15" alt="up" />
-        } @else if (data.rateChange < 0) {
+        } @else if (data().rateChange < 0) {
           <img ngSrc="/icons/down.svg" width="15" height="15" alt="down" />
         }
       </div>
     </div>
     <div class="rate__value">
-      {{ data.course | number: '1.0-2' }} {{ data.assetId | legacyuppercase }}
+      {{ data().course | number: '1.0-2' }}
+      {{ data().assetId | legacyuppercase }}
     </div>
     <div
       class="rate__rate"
       [ngClass]="{
-        'rate__rate--success': data.rateChange > 0,
-        'rate__rate--danger': data.rateChange < 0,
+        'rate__rate--success': data().rateChange > 0,
+        'rate__rate--danger': data().rateChange < 0,
       }">
-      {{ data.rateChange / 100 | percent: '1.2-2' }}
+      {{ data().rateChange / 100 | percent: '1.2-2' }}
     </div>
   </div>
 }

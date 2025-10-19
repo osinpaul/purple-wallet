@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { IRateModel } from '../../models/rate.model';
 import {
   DecimalPipe,
@@ -21,5 +21,5 @@ import { LegacyUpperCasePipe } from '../../../../../shared/pipes/legacy-uppercas
   ],
 })
 export class RateComponent {
-  @Input() data: IRateModel | null = null;
+  data = input.required<IRateModel>();
 }
