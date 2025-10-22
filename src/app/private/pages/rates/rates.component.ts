@@ -1,7 +1,16 @@
-import { Component, effect, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+} from '@angular/core';
 import { IRateModel } from './models/rate.model';
 import { FAKE_RATES } from '../../../shared/const/fake-rates.const';
 import { RateComponent } from './components/rate/rate.component';
+import { RatesService } from './services/rates.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-rates',
@@ -9,21 +18,9 @@ import { RateComponent } from './components/rate/rate.component';
   styleUrls: ['./rates.component.scss'],
   standalone: true,
   imports: [RateComponent],
+  providers: [RatesService],
 })
-export class RatesComponent implements OnInit {
-  rates = signal<IRateModel[]>([]);
-
-  constructor() {
-    // effect — аналог подписки на изменения
-    effect(() => {
-      console.log('Rates updated:', this.rates());
-    });
-  }
-
-  ngOnInit(): void {
-    // имитация асинхронной загрузки
-    setTimeout(() => {
-      this.rates.set(FAKE_RATES);
-    }, 1000);
-  }
+export class RatesComponent {
+  private _ratesService: RatesService = inject(RatesService);
+  rates: Signal<IRateModel[] | undefined> = toSignal(this._ratesService.rates$);
 }
