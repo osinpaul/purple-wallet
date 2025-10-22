@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, mergeMap, Observable, of, tap, throwError } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   public isAuthenticated = true;
 
