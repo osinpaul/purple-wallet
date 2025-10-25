@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
-import { FAKE_ASSETS } from '../../../shared/const/fake-assets.const';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Signal,
+} from '@angular/core';
 import { IAssetModel } from './models/asset.model';
 import { AssetComponent } from './components/asset/asset.component';
-import { delay, Observable, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AssetsService } from './services/assets.service';
 
 @Component({
   selector: 'app-assets',
@@ -12,8 +16,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AssetComponent],
+  providers: [AssetsService],
 })
 export class AssetsComponent {
-  assets$: Observable<IAssetModel[]> = of(FAKE_ASSETS).pipe(delay(1000));
-  assetsSignal: Signal<IAssetModel[] | undefined> = toSignal(this.assets$);
+  private _ratesService: AssetsService = inject(AssetsService);
+  assetsSignal: Signal<IAssetModel[] | undefined> = toSignal(
+    this._ratesService.assets$
+  );
 }

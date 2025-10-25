@@ -1,3 +1,4 @@
+import { IAssetModel } from './../../private/pages/assets/models/asset.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { IRateModel } from '../../private/pages/rates/models/rate.model';
@@ -5,10 +6,12 @@ import { map, Observable } from 'rxjs';
 
 export interface IAppStore {
   rates: IRateModel[];
+  assets: IAssetModel[];
 }
 
 const STORE_INITIAL_STATE: IAppStore = {
   rates: [],
+  assets: [],
 };
 
 @Injectable({ providedIn: 'root' })

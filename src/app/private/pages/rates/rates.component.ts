@@ -1,13 +1,5 @@
-import {
-  Component,
-  effect,
-  inject,
-  OnInit,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { IRateModel } from './models/rate.model';
-import { FAKE_RATES } from '../../../shared/const/fake-rates.const';
 import { RateComponent } from './components/rate/rate.component';
 import { RatesService } from './services/rates.service';
 import { toSignal } from '@angular/core/rxjs-interop';
