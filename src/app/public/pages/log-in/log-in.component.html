@@ -4,7 +4,7 @@
     <app-input
       class="login__form--control"
       iconUrl="icons/letter.svg"
-      (controlValue)="onInputChange('username', $event)" />
+      [(ngModel)]="formValue.username" />
 
     <app-password-input
       class="login__form--control"
