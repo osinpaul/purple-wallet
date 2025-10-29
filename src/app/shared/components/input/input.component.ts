@@ -54,5 +54,6 @@ export class InputComponent implements ControlValueAccessor {
     const value = target.value;
     this.innerValue = value;
     this.onChange(value);
+    this.onTouched();
   }
 }

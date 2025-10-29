@@ -1,22 +1,26 @@
 <div class="login__container">
   <h1 class="login__heading">Вход</h1>
-  <div class="login__form">
+  <form class="login__form" [formGroup]="form">
     <app-input
       class="login__form--control"
-      iconUrl="icons/letter.svg"
-      [(ngModel)]="formValue.username" />
+      formControlName="email"
+      iconUrl="icons/letter.svg" />
 
     <app-password-input
       class="login__form--control"
       iconUrl="icons/lock.svg"
       (controlValue)="onInputChange('password', $event)" />
 
-    @if (error) {
-      <div class="login__form--errors">{{ error }}</div>
+    @if (form.controls.email.invalid && form.controls.email.touched) {
+      <div class="login__form--errors">Проверьте правильность ввода</div>
     }
 
-    <app-button (btnClick)="onLoginClick()">
+    @if (error) {
+      <div class="login__form--errors">Что-то пошло не так</div>
+    }
+
+    <app-button type="submit" (btnClick)="onLoginClick()">
       <span> Войти </span>
     </app-button>
-  </div>
+  </form>
 </div>

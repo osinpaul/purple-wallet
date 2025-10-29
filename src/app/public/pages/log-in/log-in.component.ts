@@ -5,7 +5,13 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { AuthService } from '../../../shared/services/auth.service';
 import { catchError, of, take, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-log-in',
@@ -13,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     ButtonComponent,
     InputComponent,
     PasswordInputComponent,
+    ReactiveFormsModule,
     FormsModule,
   ],
   templateUrl: './log-in.component.html',
@@ -22,23 +29,26 @@ import { FormsModule } from '@angular/forms';
 export class LogInComponent {
   private _authService: AuthService = inject(AuthService);
   private _router: Router = inject(Router);
-  public formValue: { username: string | null; password: string | null } = {
-    username: null,
+  public formValue: { password: string | null } = {
     password: null,
   };
 
+  form = new FormGroup({
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+  });
+
   error: string | null = null;
 
-  onInputChange(ctrl: 'username' | 'password', value: string): void {
-    this.error = null;
+  onInputChange(ctrl: 'password', value: string): void {
     this.formValue[ctrl] = value;
   }
 
   onLoginClick(): void {
-    if (this.formValue.username == null || this.formValue.password == null)
-      return;
     this._authService
-      .login$(this.formValue.username, this.formValue.password)
+      .login$(this.form.controls.email.value, this.formValue['password'] ?? '')
       .pipe(
         take(1),
         tap(() => this._router.navigate(['private'])),
