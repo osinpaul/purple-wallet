@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 export enum EPasswordInputIcons {
   Opened = 'icons/eye_opened.svg',
@@ -13,20 +17,50 @@ export enum EPasswordInputIcons {
   templateUrl: './password-input.component.html',
   styleUrls: ['./password-input.component.scss'],
   standalone: true,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PasswordInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class PasswordInputComponent {
+export class PasswordInputComponent implements ControlValueAccessor {
+  private innerValue = '';
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched: () => void = () => {};
+
   @Input() iconUrl: string | null = null;
   @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() value = '';
-  @Output() controlValue: EventEmitter<string> = new EventEmitter<string>();
+  disabled = false;
 
   type = 'password';
   buttonIcon = EPasswordInputIcons.Closed;
 
-  onInput(value: string): void {
-    this.value = value;
-    this.controlValue.emit(value);
+  writeValue(value: string): void {
+    this.innerValue = value ?? '';
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  handleInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    this.innerValue = value;
+    this.onChange(value);
+    this.onTouched();
   }
 
   onButtonToggleClick(): void {

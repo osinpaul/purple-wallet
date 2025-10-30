@@ -9,10 +9,14 @@
     <app-password-input
       class="login__form--control"
       iconUrl="icons/lock.svg"
-      (controlValue)="onInputChange('password', $event)" />
+      formControlName="password" />
 
     @if (form.controls.email.invalid && form.controls.email.touched) {
       <div class="login__form--errors">Проверьте правильность ввода</div>
+    }
+
+    @if (form.controls.password.invalid && form.controls.password.touched) {
+      <div class="login__form--errors">Вы не ввели пароль</div>
     }
 
     @if (error) {

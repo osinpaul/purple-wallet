@@ -29,26 +29,23 @@ import {
 export class LogInComponent {
   private _authService: AuthService = inject(AuthService);
   private _router: Router = inject(Router);
-  public formValue: { password: string | null } = {
-    password: null,
-  };
 
   form = new FormGroup({
     email: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email],
     }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   error: string | null = null;
 
-  onInputChange(ctrl: 'password', value: string): void {
-    this.formValue[ctrl] = value;
-  }
-
   onLoginClick(): void {
     this._authService
-      .login$(this.form.controls.email.value, this.formValue['password'] ?? '')
+      .login$(this.form.controls.email.value, this.form.controls.password.value)
       .pipe(
         take(1),
         tap(() => this._router.navigate(['private'])),
