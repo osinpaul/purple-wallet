@@ -12,6 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { noSpacesValidator } from '../../../shared/validators/no-space.validator';
 
 @Component({
   selector: 'app-log-in',
@@ -37,7 +38,7 @@ export class LogInComponent {
     }),
     password: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required],
+      validators: [Validators.required, noSpacesValidator()],
     }),
   });
 

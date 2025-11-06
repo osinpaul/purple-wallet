@@ -12,11 +12,23 @@
       formControlName="password" />
 
     @if (form.controls.email.invalid && form.controls.email.touched) {
-      <div class="login__form--errors">Проверьте правильность ввода</div>
+      <div class="login__form--errors">Проверьте правильность ввода email</div>
     }
 
-    @if (form.controls.password.invalid && form.controls.password.touched) {
-      <div class="login__form--errors">Вы не ввели пароль</div>
+    @if (
+      form.controls.password?.errors?.['noSpaces'] &&
+      form.controls.password.touched
+    ) {
+      <div class="login__form--errors">
+        {{ form.controls.password?.errors?.['noSpaces'] }}
+      </div>
+    }
+
+    @if (
+      form.controls.password?.errors?.['required'] &&
+      form.controls.password.touched
+    ) {
+      <div class="login__form--errors">Пароль не введён</div>
     }
 
     @if (error) {
