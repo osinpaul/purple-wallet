@@ -5,9 +5,9 @@
 
   <div class="header__action">
     @if (isShowSearch()) {
-      <div class="header__search">
-        <app-search-input placeholder="Поиск монет" />
-      </div>
+      <form class="header__search" [formGroup]="form">
+        <app-search-input formControlName="search" placeholder="Поиск монет" />
+      </form>
     }
   </div>
 

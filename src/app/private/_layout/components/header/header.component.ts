@@ -7,19 +7,26 @@ import { delay, filter, map, of, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { IUserModel } from '../../../../shared/models/user.model';
 import { NgOptimizedImage } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { StoreService } from '../../../../shared/services/store.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [NgOptimizedImage, SearchInputComponent],
+  imports: [NgOptimizedImage, SearchInputComponent, ReactiveFormsModule],
 })
 export class HeaderComponent implements OnInit {
   private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private _titleService = inject(Title);
+  private _store = inject(StoreService);
   private _destroyRef = inject(DestroyRef);
+
+  public form: FormGroup = new FormGroup({
+    search: new FormControl(''),
+  });
 
   isShowSearch: Signal<boolean> = toSignal(
     this._router.events.pipe(
@@ -41,6 +48,8 @@ export class HeaderComponent implements OnInit {
   title = '';
 
   ngOnInit() {
+    this._setFormValueToStore();
+
     this.title = this._titleService.getTitle();
     this._router.events
       .pipe(
@@ -50,6 +59,15 @@ export class HeaderComponent implements OnInit {
             this.title = this._titleService.getTitle();
           }
         }),
+        takeUntilDestroyed(this._destroyRef)
+      )
+      .subscribe();
+  }
+
+  private _setFormValueToStore(): void {
+    this.form.controls['search'].valueChanges
+      .pipe(
+        tap(value => this._store.setFormValue('search', value)),
         takeUntilDestroyed(this._destroyRef)
       )
       .subscribe();

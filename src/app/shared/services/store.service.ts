@@ -7,11 +7,17 @@ import { map, Observable } from 'rxjs';
 export interface IAppStore {
   rates: IRateModel[];
   assets: IAssetModel[];
+  form: {
+    search: string;
+  };
 }
 
 const STORE_INITIAL_STATE: IAppStore = {
   rates: [],
   assets: [],
+  form: {
+    search: '',
+  },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -30,6 +36,12 @@ export class StoreService {
     return this.ratesSubject.asObservable().pipe(map(state => state[key]));
   }
 
+  public getFormValueAsync<K extends keyof IAppStore['form']>(
+    key: K
+  ): Observable<IAppStore['form'][K]> {
+    return this.ratesSubject.asObservable().pipe(map(state => state.form[key]));
+  }
+
   public setValue<K extends keyof IAppStore>(
     key: K,
     value: IAppStore[K]
@@ -37,6 +49,19 @@ export class StoreService {
     this.ratesSubject.next({
       ...this.ratesSubject.getValue(),
       [key]: value,
+    });
+  }
+
+  public setFormValue<K extends keyof IAppStore['form']>(
+    key: K,
+    value: IAppStore['form'][K]
+  ): void {
+    this.ratesSubject.next({
+      ...this.ratesSubject.getValue(),
+      form: {
+        ...this.ratesSubject.getValue().form,
+        [key]: value,
+      },
     });
   }
 }

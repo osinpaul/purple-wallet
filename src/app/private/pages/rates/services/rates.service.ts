@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { delay, map, Observable, of, tap } from 'rxjs';
+import { combineLatest, delay, map, Observable, of, tap, filter } from 'rxjs';
 import { IRateModel } from '../models/rate.model';
 import { FAKE_RATES } from '../../../../shared/const/fake-rates.const';
 import { StoreService } from '../../../../shared/services/store.service';
@@ -9,6 +9,18 @@ export class RatesService {
   private _store: StoreService = inject(StoreService);
   readonly rates$: Observable<IRateModel[]> =
     this._store.getValueAsync('rates');
+  readonly searchForm$: Observable<string> =
+    this._store.getFormValueAsync('search');
+  readonly filteredRates$: Observable<IRateModel[]> = combineLatest([
+    this.rates$,
+    this.searchForm$,
+  ]).pipe(
+    map(([rates, formValue]) =>
+      rates.filter(rate =>
+        rate.assetName.toLowerCase().includes(formValue.toLowerCase())
+      )
+    )
+  );
 
   constructor() {
     this._updateRates$().subscribe();

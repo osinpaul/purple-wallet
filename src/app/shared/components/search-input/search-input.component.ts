@@ -1,23 +1,57 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-search-input',
   imports: [FormsModule, CommonModule, NgOptimizedImage],
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SearchInputComponent),
+      multi: true,
+    },
+  ],
   standalone: true,
 })
-export class SearchInputComponent {
+export class SearchInputComponent implements ControlValueAccessor {
+  private innerValue = '';
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched: () => void = () => {};
+
   @Input() type: 'text' | 'email' = 'text';
   @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() value = '';
-  @Output() controlValue: EventEmitter<string> = new EventEmitter<string>();
+  disabled = false;
 
-  onInput(value: string) {
-    this.value = value;
-    this.controlValue.emit(value);
+  writeValue(value: string): void {
+    this.innerValue = value ?? '';
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  handleInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    this.innerValue = value;
+    this.onChange(value);
+    this.onTouched();
   }
 }

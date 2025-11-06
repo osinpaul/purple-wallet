@@ -4,8 +4,7 @@
     [type]="type"
     [placeholder]="placeholder"
     [disabled]="disabled"
-    [(ngModel)]="value"
-    (input)="onInput($any($event.target).value)" />
+    (input)="handleInput($event)" />
   <div class="form__icon">
     <img ngSrc="icons/search.svg" width="30" height="30" [alt]="type" />
   </div>
