@@ -1,59 +1,66 @@
 # PurpleWallet
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+PurpleWallet теперь состоит из двух частей:
 
-## Development server
+- **Frontend** — SPA на Angular.
+- **Backend** — лёгкий API на Node.js + Express.
 
-To start a local development server, run:
+## Backend API (Node + Express)
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Запуск
 
 ```bash
-ng generate component component-name
+npm run start:api
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+По умолчанию сервер слушает `http://localhost:3000` (порт можно переопределить переменной `PORT`). CORS включён, поэтому фронтенд на `4200` может обращаться к API без дополнительной настройки.
 
-```bash
-ng generate --help
-```
+### Аутентификация
 
-## Building
+1. Отправьте `POST /api/v1/auth/login` с телом:
 
-To build the project run:
+   ```json
+   {
+     "email": "user@example.com",
+     "password": "any-non-empty-string"
+   }
+   ```
 
-```bash
-ng build
-```
+   Email проверяется на корректность формата, пароль должен быть непустым. На успешный запрос возвращается JWT:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+   ```json
+   {
+     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     "tokenType": "Bearer",
+     "expiresIn": "1h"
+   }
+   ```
 
-## Running unit tests
+2. Передавайте токен в заголовке `Authorization: Bearer <token>` для всех защищённых методов.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Секрет (`JWT_SECRET`) и время жизни (`JWT_EXPIRES_IN`) можно задавать через переменные окружения.
 
-```bash
-ng test
-```
+### Swagger UI
 
-## Running end-to-end tests
+- Документация доступна в браузере по адресу `http://localhost:3000/docs` (Swagger UI подтягивает `server/openapi.yaml` автоматически).
+- Сам YAML остаётся в `server/openapi.yaml`, поэтому его можно импортировать и в сторонние инструменты.
 
-For end-to-end (e2e) testing, run:
+### Точки входа
 
-```bash
-ng e2e
-```
+| Метод | Endpoint                  | Назначение                                          | Авторизация      |
+| ----- | ------------------------- | --------------------------------------------------- | ---------------- |
+| GET   | `/api/v1/health`          | Проверка живости сервиса                            | Не требуется     |
+| POST  | `/api/v1/auth/login`      | Выдаёт JWT по валидному email и непустому паролю    | Не требуется     |
+| GET   | `/api/v1/profile`         | Данные владельца кошелька для шапки                 | Требуется Bearer |
+| GET   | `/api/v1/assets`          | Список активов с количеством и оценкой в фиат       | Требуется Bearer |
+| GET   | `/api/v1/assets/:assetId` | Отдельный актив по идентификатору (например, `btc`) | Требуется Bearer |
+| GET   | `/api/v1/rates`           | Курсы криптовалют для страницы Rates                | Требуется Bearer |
+| GET   | `/api/v1/rates/:assetId`  | Отдельный курс по идентификатору                    | Требуется Bearer |
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### OpenAPI
 
-## Additional Resources
+Полное описание каждого метода доступно в `server/openapi.yaml`. Файл можно импортировать в Swagger UI / Postman / Stoplight и получить интерактивную документацию.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Дополнительно
+
+Документация по Angular CLI и справочник команд: [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
