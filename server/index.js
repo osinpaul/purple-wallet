@@ -77,6 +77,35 @@ router.post('/auth/login', (req, res) => {
   });
 });
 
+const getPaginationParams = (req, totalItems) => {
+  const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+  const limit = Math.max(
+    Math.min(parseInt(req.query.limit, 10) || totalItems, totalItems),
+    1
+  );
+  const totalPages = Math.max(Math.ceil(totalItems / limit), 1);
+  const currentPage = Math.min(page, totalPages);
+
+  return { page: currentPage, limit, totalPages };
+};
+
+router.get('/rates', (req, res) => {
+  const total = rates.length;
+  const { page, limit, totalPages } = getPaginationParams(req, total);
+  const startIndex = (page - 1) * limit;
+  const data = rates.slice(startIndex, startIndex + limit);
+
+  res.json({
+    data,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages,
+    },
+  });
+});
+
 router.use(authenticateRequest);
 
 router.get('/profile', (_req, res) => {
@@ -95,10 +124,6 @@ router.get('/assets/:assetId', (req, res) => {
   }
 
   res.json(asset);
-});
-
-router.get('/rates', (_req, res) => {
-  res.json({ data: rates });
 });
 
 router.get('/rates/:assetId', (req, res) => {

@@ -1,11 +1,17 @@
 import { inject, Injectable } from '@angular/core';
-import { combineLatest, delay, map, Observable, of, tap, filter } from 'rxjs';
+import { combineLatest, delay, map, Observable, of, tap } from 'rxjs';
 import { IRateModel } from '../models/rate.model';
 import { FAKE_RATES } from '../../../../shared/const/fake-rates.const';
 import { StoreService } from '../../../../shared/services/store.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { IHttpResponseModel } from '../../../../shared/models/http-response.model';
+import { response } from 'express';
+import { IPagedResponseModel } from '../../../../shared/models/paged-response.model';
 
 @Injectable()
 export class RatesService {
+  private _httpClient: HttpClient = inject(HttpClient);
+
   private _store: StoreService = inject(StoreService);
   readonly rates$: Observable<IRateModel[]> =
     this._store.getValueAsync('rates');
@@ -27,10 +33,16 @@ export class RatesService {
   }
 
   private _updateRates$(): Observable<void> {
-    return of(0).pipe(
-      delay(1000),
-      tap(() => this._store.setValue('rates', FAKE_RATES)),
-      map(() => void 0)
-    );
+    const params = new HttpParams().set('page', 1).set('limit', 20);
+    const headers = new HttpHeaders().set('TestHeader', 'true');
+
+    return this._httpClient
+      .get<
+        IPagedResponseModel<IRateModel[]>
+      >('http://localhost:3000/api/v1/rates', { params, headers })
+      .pipe(
+        tap(response => this._store.setValue('rates', response.data)),
+        map(() => void 0)
+      );
   }
 }

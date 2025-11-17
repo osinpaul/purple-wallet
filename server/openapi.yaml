@@ -120,6 +120,32 @@ components:
         - logoUrl
         - course
         - rateChange
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          minimum: 0
+        page:
+          type: integer
+          minimum: 1
+        limit:
+          type: integer
+          minimum: 1
+        totalPages:
+          type: integer
+          minimum: 1
+      required: [total, page, limit, totalPages]
+    RateListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rate'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+      required: [data, meta]
 paths:
   /api/v1/health:
     get:
@@ -232,22 +258,30 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /api/v1/rates:
     get:
-      summary: Список курсов криптовалют
+      summary: Список курсов криптовалют (с пагинацией)
       tags: [Rates]
       security:
         - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Номер страницы (>=1)
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице (>=1)
+          schema:
+            type: integer
+            minimum: 1
       responses:
         '200':
           description: Успешный ответ
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Rate'
+                $ref: '#/components/schemas/RateListResponse'
         '401':
           description: Нет или неверный токен
           content:
