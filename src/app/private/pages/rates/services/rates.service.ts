@@ -1,11 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { combineLatest, delay, map, Observable, of, tap } from 'rxjs';
+import { combineLatest, map, Observable, tap } from 'rxjs';
 import { IRateModel } from '../models/rate.model';
-import { FAKE_RATES } from '../../../../shared/const/fake-rates.const';
 import { StoreService } from '../../../../shared/services/store.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { IHttpResponseModel } from '../../../../shared/models/http-response.model';
-import { response } from 'express';
 import { IPagedResponseModel } from '../../../../shared/models/paged-response.model';
 
 @Injectable()
