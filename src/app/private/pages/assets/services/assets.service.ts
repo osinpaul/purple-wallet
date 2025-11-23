@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { delay, map, Observable, of, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { StoreService } from '../../../../shared/services/store.service';
 import { IAssetModel } from '../models/asset.model';
-import { FAKE_ASSETS } from '../../../../shared/const/fake-assets.const';
+import { IHttpResponseModel } from '../../../../shared/models/http-response.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AssetsService {
+  private _httpClient: HttpClient = inject(HttpClient);
   private _store: StoreService = inject(StoreService);
   readonly assets$: Observable<IAssetModel[]> =
     this._store.getValueAsync('assets');
@@ -15,10 +17,13 @@ export class AssetsService {
   }
 
   private _updateAssets$(): Observable<void> {
-    return of(0).pipe(
-      delay(1000),
-      tap(() => this._store.setValue('assets', FAKE_ASSETS)),
-      map(() => void 0)
-    );
+    return this._httpClient
+      .get<
+        IHttpResponseModel<IAssetModel[]>
+      >('http://localhost:3000/api/v1/assets')
+      .pipe(
+        tap(response => this._store.setValue('assets', response.data)),
+        map(() => void 0)
+      );
   }
 }

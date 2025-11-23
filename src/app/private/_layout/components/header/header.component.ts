@@ -5,10 +5,11 @@ import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { delay, filter, map, of, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { IUserModel } from '../../../../shared/models/user.model';
 import { NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { StoreService } from '../../../../shared/services/store.service';
+import { ProfileService } from '../../../../shared/services/profile.service';
+import { IAppProfieStore } from '../../../../shared/services/profile-store.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import { StoreService } from '../../../../shared/services/store.service';
   styleUrls: ['./header.component.scss'],
   standalone: true,
   imports: [NgOptimizedImage, SearchInputComponent, ReactiveFormsModule],
+  providers: [ProfileService],
 })
 export class HeaderComponent implements OnInit {
   private _router = inject(Router);
@@ -23,6 +25,7 @@ export class HeaderComponent implements OnInit {
   private _titleService = inject(Title);
   private _store = inject(StoreService);
   private _destroyRef = inject(DestroyRef);
+  private _profileService: ProfileService = inject(ProfileService);
 
   public form: FormGroup = new FormGroup({
     search: new FormControl(''),
@@ -41,8 +44,8 @@ export class HeaderComponent implements OnInit {
       map(v => v['isShowSearch'] ?? false)
     )
   );
-  profileData: Signal<IUserModel | undefined> = toSignal(
-    of(FAKE_PROFILE).pipe(delay(1000))
+  profileData: Signal<IAppProfieStore | undefined> = toSignal(
+    this._profileService.profile$
   );
 
   title = '';
