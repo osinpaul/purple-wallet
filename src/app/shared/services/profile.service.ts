@@ -1,4 +1,3 @@
-import { IHttpResponseModel } from './../models/http-response.model';
 import { IAppProfieStore, ProfileStoreService } from './profile-store.service';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
@@ -20,7 +19,6 @@ export class ProfileService {
     return this._httpClient
       .get<IUserModel>('http://localhost:3000/api/v1/profile')
       .pipe(
-        tap(response => console.log(response)),
         tap(response => this._store.setValue(response)),
         map(() => void 0)
       );

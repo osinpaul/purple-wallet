@@ -1,15 +1,15 @@
 import { SearchInputComponent } from './../../../../shared/components/search-input/search-input.component';
-import { FAKE_PROFILE } from './../../../../shared/const/fake-profile.const';
 import { Component, DestroyRef, inject, OnInit, Signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
-import { delay, filter, map, of, startWith, switchMap, tap } from 'rxjs';
+import { delay, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { StoreService } from '../../../../shared/services/store.service';
 import { ProfileService } from '../../../../shared/services/profile.service';
 import { IAppProfieStore } from '../../../../shared/services/profile-store.service';
+import { ErrorStoreService } from '../../../../shared/services/error-store.service';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   private _store = inject(StoreService);
   private _destroyRef = inject(DestroyRef);
   private _profileService: ProfileService = inject(ProfileService);
+  private _errorStore: ErrorStoreService = inject(ErrorStoreService);
 
   public form: FormGroup = new FormGroup({
     search: new FormControl(''),
@@ -65,6 +66,8 @@ export class HeaderComponent implements OnInit {
         takeUntilDestroyed(this._destroyRef)
       )
       .subscribe();
+
+    this._errorStore.getValueAsync().subscribe(console.log);
   }
 
   private _setFormValueToStore(): void {

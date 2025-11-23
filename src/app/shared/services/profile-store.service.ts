@@ -36,7 +36,6 @@ export class ProfileStoreService {
   }
 
   public setValue(value: IAppProfieStore): void {
-    console.log('setValue', value);
     this._dataSubject.next({
       ...this._dataSubject.getValue(),
       ...value,
