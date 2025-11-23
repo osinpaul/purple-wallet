@@ -99,6 +99,18 @@ components:
         - value
         - rateChange
         - valueInFiat
+    Balance:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 1000.5
+        currency:
+          type: string
+          example: RUR
+      required:
+        - amount
+        - currency
     Rate:
       type: object
       properties:
@@ -272,6 +284,25 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Актив не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/balance:
+    get:
+      summary: Баланс пользователя
+      tags: [Balance]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Баланс в фиате
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '401':
+          description: Нет или неверный токен
           content:
             application/json:
               schema:

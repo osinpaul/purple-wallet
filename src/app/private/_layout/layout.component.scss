@@ -1,6 +1,7 @@
 :host {
   display: flex;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   flex: 1 1 auto;
   background-color: #31353f;
 }

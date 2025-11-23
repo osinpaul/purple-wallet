@@ -1,11 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { combineLatest, map, Observable, tap } from 'rxjs';
 import { IRateModel } from '../models/rate.model';
-import { FAKE_RATES } from '../../../../shared/const/fake-rates.const';
 import { StoreService } from '../../../../shared/services/store.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { IHttpResponseModel } from '../../../../shared/models/http-response.model';
-import { response } from 'express';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { IPagedResponseModel } from '../../../../shared/models/paged-response.model';
 
 @Injectable()
@@ -15,6 +12,9 @@ export class RatesService {
   private _store: StoreService = inject(StoreService);
   readonly rates$: Observable<IRateModel[]> =
     this._store.getValueAsync('rates');
+  readonly popularRates$: Observable<IRateModel[]> = this._store
+    .getValueAsync('rates')
+    .pipe(map(rates => rates.slice(0, 4)));
   readonly searchForm$: Observable<string> =
     this._store.getFormValueAsync('search');
   readonly filteredRates$: Observable<IRateModel[]> = combineLatest([

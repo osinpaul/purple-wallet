@@ -136,6 +136,18 @@ router.get('/rates/:assetId', (req, res) => {
   res.json(rate);
 });
 
+router.get('/balance', (_req, res) => {
+  const amount = assets.reduce(
+    (total, asset) => total + Number(asset.valueInFiat || 0),
+    0
+  );
+
+  res.json({
+    amount,
+    currency: 'RUB',
+  });
+});
+
 app.use(API_PREFIX, router);
 
 app.use((_req, res) => {
