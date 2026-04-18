@@ -10,23 +10,6 @@
     </div>
   </div>
   <div class="layout__page">
-    <div class="login__container">
-      <h1 class="login__heading">Вход</h1>
-      <div class="login__form">
-        <app-input
-          class="login__form--control"
-          iconUrl="icons/letter.svg"
-          (controlValue)="onInputChange($event)" />
-
-        <app-password-input
-          class="login__form--control"
-          iconUrl="icons/lock.svg"
-          (controlValue)="onInputChange($event)" />
-
-        <app-button routerLink="/private">
-          <span> Войти </span>
-        </app-button>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
