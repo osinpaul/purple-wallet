@@ -1,4 +1,11 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -8,7 +15,7 @@ import { Component, EventEmitter, input, Output } from '@angular/core';
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
-  title = input('');
+  @ContentChild('buttonContent') btnRef: ElementRef | undefined;
   disabled = input(false);
   @Output() btnClick: EventEmitter<void> = new EventEmitter<void>();
 

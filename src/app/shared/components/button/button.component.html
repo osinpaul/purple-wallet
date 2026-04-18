@@ -3,5 +3,5 @@
   (click)="onBtnClick()"
   class="form__button"
   [disabled]="disabled()">
-  {{ title() }}
+  <ng-content></ng-content>
 </button>
