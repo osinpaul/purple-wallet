@@ -1,1 +1,7 @@
-<button type="button" (click)="onBtnClick()" class="form__button">{{ title() }}</button>
+<button
+  type="button"
+  (click)="onBtnClick()"
+  class="form__button"
+  [disabled]="disabled()">
+  {{ title() }}
+</button>

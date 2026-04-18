@@ -9,6 +9,7 @@ import { Component, EventEmitter, input, Output } from '@angular/core';
 })
 export class ButtonComponent {
   title = input('');
+  disabled = input(false);
   @Output() btnClick: EventEmitter<void> = new EventEmitter<void>();
 
   onBtnClick(): void {
