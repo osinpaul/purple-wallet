@@ -9,4 +9,8 @@ import { ButtonComponent } from './shared/components/button/button.component';
 })
 export class AppComponent {
   title = 'purple-wallet';
+
+  onBtnClick(): void {
+    console.log('Button clicked');
+  }
 }
