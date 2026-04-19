@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class LegacyUpperCasePipe implements PipeTransform {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform(value: any, type: 'uppercase' | 'titlecase' = 'uppercase') {
     if (typeof value === 'string') {
       return type === 'uppercase'

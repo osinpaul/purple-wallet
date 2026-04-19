@@ -6,7 +6,6 @@ import {
   NgClass,
   NgOptimizedImage,
   PercentPipe,
-  UpperCasePipe,
 } from '@angular/common';
 import { LegacyUpperCasePipe } from '../../../../../shared/pipes/legacy-uppercase.pipe';
 
