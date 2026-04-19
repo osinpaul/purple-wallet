@@ -1,3 +1,4 @@
+import { FontWeightDirective } from './../../directives/font-weight.directive';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import {
   AfterViewInit,
@@ -13,7 +14,7 @@ import {
 @Component({
   selector: 'app-nav-button',
   standalone: true,
-  imports: [NgClass, NgOptimizedImage],
+  imports: [NgClass, NgOptimizedImage, FontWeightDirective],
   templateUrl: './nav-button.component.html',
   styleUrl: './nav-button.component.scss',
 })
