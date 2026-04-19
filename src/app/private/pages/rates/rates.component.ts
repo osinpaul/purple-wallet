@@ -12,6 +12,7 @@ import { RateComponent } from './components/rate/rate.component';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { StoreService } from '../../../shared/services/store.service';
 
 @Component({
   selector: 'app-rates',
@@ -22,7 +23,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class RatesComponent implements OnInit {
   private _activatedRoute = inject(ActivatedRoute);
-  rates = signal<IRateModel[]>([]);
+  private _store = inject(StoreService);
+  rates = toSignal(this._store.getValueAsync('rates'));
 
   searchQuery = toSignal(
     this._activatedRoute.queryParamMap.pipe(
@@ -41,7 +43,7 @@ export class RatesComponent implements OnInit {
       return list;
     }
 
-    return list.filter(
+    return list?.filter(
       rate =>
         rate.assetId.toLowerCase().includes(query.toLowerCase()) ||
         rate.assetName.toLowerCase().includes(query.toLowerCase())
@@ -56,9 +58,6 @@ export class RatesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // имитация асинхронной загрузки
-    setTimeout(() => {
-      this.rates.set(FAKE_RATES);
-    }, 1000);
+    this._store.setValue('rates', FAKE_RATES);
   }
 }
