@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { NavButtonComponent } from '../../shared/components/nav-button/nav-button.component';
 import { INavConst, NAV_CONST } from '../../shared/const/menu-items.const';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-private-layout',
@@ -15,6 +16,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
+    HeaderComponent,
   ],
 })
 export class PrivateLayoutComponent {
