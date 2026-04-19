@@ -1,4 +1,4 @@
-@for (item of rates$ | async; track item.assetId) {
+@for (item of rates(); track item.assetId) {
   <app-rate [data]="item" />
 } @empty {
   <p>Идет загрузка...</p>
