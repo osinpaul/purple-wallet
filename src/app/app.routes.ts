@@ -4,6 +4,9 @@ import { PublicLayoutComponent } from './public/_layout/layout.component';
 import { PrivateLayoutComponent } from './private/_layout/layout.component';
 import { LogInComponent } from './public/pages/log-in/log-in.component';
 import { authGuard } from './shared/guard/auth.guard';
+import { AssetsComponent } from './private/pages/assets/assets.component';
+import { ExchangeComponent } from './private/pages/exchange/exchange.component';
+import { RatesComponent } from './private/pages/rates/rates.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +31,18 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+      },
+      {
+        path: 'assets',
+        component: AssetsComponent,
+      },
+      {
+        path: 'exchange',
+        component: ExchangeComponent,
+      },
+      {
+        path: 'rates',
+        component: RatesComponent,
       },
       {
         path: '**',
