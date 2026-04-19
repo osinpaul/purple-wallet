@@ -11,14 +11,14 @@
       {{ data().assetName }}
     </span>
     <span class="asset__name-short">
-      {{ data().assetId | uppercase }}
+      {{ data().assetId | legacyuppercase }}
     </span>
   </div>
   <div class="asset__value">
-      {{ data().value | number: '2.2-2' }} {{ data().assetId | uppercase }}
-    </div>
-    <div class="fiat__value">
-      {{ data().valueInFiat | currency: 'RUB' : 'symbol-narrow' }}
+    {{ data().value | number: '2.2-2' }} {{ data().assetId | legacyuppercase }}
+  </div>
+  <div class="fiat__value">
+    {{ data().valueInFiat | currency: 'RUB' : 'symbol-narrow' }}
   </div>
   <div class="fiat__value">{{ data().valueInFiat }} $</div>
   <div
@@ -27,8 +27,8 @@
       'asset__rate--success': data().rateChange > 0,
       'asset__rate--danger': data().rateChange < 0,
     }">
-      <!-- TODO: Форматирование мутирует данные-->
-      {{ data().rateChange / 100 | percent }}
+    <!-- TODO: Форматирование мутирует данные-->
+    {{ data().rateChange / 100 | percent }}
   </div>
   <div class="asset__rate-change">
     <div class="asset__rate-change-icon">

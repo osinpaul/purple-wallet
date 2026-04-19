@@ -8,6 +8,7 @@ import {
   PercentPipe,
   UpperCasePipe,
 } from '@angular/common';
+import { LegacyUpperCasePipe } from '../../../../../shared/pipes/legacy-uppercase.pipe';
 
 @Component({
   selector: 'app-asset',
@@ -15,11 +16,11 @@ import {
   styleUrls: ['./asset.component.scss'],
   imports: [
     NgOptimizedImage,
-    UpperCasePipe,
     NgClass,
     CurrencyPipe,
     PercentPipe,
     DecimalPipe,
+    LegacyUpperCasePipe,
   ],
 })
 export class AssetComponent {
