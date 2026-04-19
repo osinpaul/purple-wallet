@@ -1,5 +1,5 @@
-@for (item of rates; track item.assetId) {
+@for (item of rates$ | async; track item.assetId) {
   <app-rate [data]="item" />
 } @empty {
-  <li>Данные не получены</li>
+  <p>Идет загрузка...</p>
 }
